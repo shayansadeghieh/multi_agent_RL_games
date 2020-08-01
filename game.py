@@ -67,9 +67,25 @@ class GameState:
         self.score = self._getScore()
         
     def _allowedActions(self):
-
-
-		return allowed
+        allowed = []
+        for i in range(len(self.board)):
+            if i >= len(self.board) - 3:
+                if self.board[i] == 0:
+                    allowed.append(i)
+                elif self.board[i] == 0 and self.board[i+3] != 0:
+                        allowed.append(i)
+        return allowed
+    
+    def _binary(self):
+        current_player_position = int(np.zeros(len(self.board)))
+        current_player_position[self.board == self.player_turn] = 1
+        other_position = int(np.zeros(len(self.board)))
+        other_position[self.board == -self.player_turn] = 1
+        
+        position = np.append(current_player_position,other_position)
+        
+        return (position)
+    
     
     def takeAction(self, action):
         new_board = np.array(self.board)
